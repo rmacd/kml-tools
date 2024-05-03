@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(title, main)" class="h-100">
+<head>
+    <title th:replace="${title}">KML generator :: main</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" th:href="@{webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <script th:src="@{webjars/bootstrap/5.3.3/js/bootstrap.min.js}" lang="text/javascript"></script>
+    <script th:src="@{webjars/jquery/3.7.1/jquery.min.js}" lang="text/javascript"></script>
+</head>
+<body class="d-flex flex-column h-100">
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main th:replace="${main}">Page content</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

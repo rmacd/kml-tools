@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/base :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Pages :: LOB</title>
+</head>
+<body>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+
+            <div class="card mb-5">
+                <div class="card-body">
+                    Generates a LOB (line of bearing) using starting coordinate and angle
+                </div>
+            </div>
+
+            <form method="post" th:action="@{/services/lob}" id="generateLobForm">
+                <div class="col-sm-6 my-3">
+                    <label for="centre" class="form-label">Centre Coordinate</label>
+                    <input type="text" class="form-control" id="centre"
+                           name="centre" placeholder="Example: -55.0,3.0" value="" required>
+                    <div class="invalid-feedback">
+                        Valid coordinate is required
+                    </div>
+                </div>
+
+                <div class="col-sm-6 my-3">
+                    <label for="distance" class="form-label">Distance (km)</label>
+                    <input type="text" class="form-control" id="distance"
+                           name="distance" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                        Valid distance is required
+                    </div>
+                </div>
+
+                <div class="col-sm-6 my-3">
+                    <label for="distance" class="form-label">Angle (&deg;)</label>
+                    <input type="text" class="form-control" id="angle"
+                           name="angle" placeholder="Example: 77.9" value="" required>
+                    <div class="invalid-feedback">
+                        Valid angle is required
+                    </div>
+                </div>
+
+                <button class="w-100 btn btn-primary btn-lg mt-3" type="submit">Generate KML</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        contextPath = "[[@{/}]]";
+        function submitLob() {
+            let centre = $("input[name='centre']").val();
+            let distance = $("input[name='distance']").val();
+            let angle = $("input[name='angle']").val();
+
+            console.log("params:", centre, distance, angle);
+            $.ajax({
+                type: "POST",
+                url: contextPath + "services/lob",
+                data: {
+                    centre: centre,
+                    distance: distance,
+                    angle: angle
+                }
+            })
+        }
+        $("#generateLobForm").on("submit", function (e) {
+            e.preventDefault();
+            submitLob();
+        })
+    </script>
+
+</main>
+</body>
+</html>
