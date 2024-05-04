@@ -48,6 +48,8 @@
         </div>
     </div>
 
+    <div id="toasts">&nbsp;</div>
+
     <script>
         contextPath = "[[@{/}]]";
         function submitLob() {
@@ -65,9 +67,35 @@
                     angle: angle
                 }
             })
+                .done(function(data, status, response) {
+                    // get filename
+                    let contentDisposition = response.getResponseHeader('content-disposition');
+                    let filename = 'kml-tools-output.kml';
+                    if (contentDisposition && contentDisposition.indexOf('attachment') !== -1) {
+                        filename = contentDisposition.split(/;(.+)/)[1].split(/=(.+)/)[1];
+                        if (filename.toLowerCase().startsWith("utf-8''")) {
+                            filename = decodeURIComponent(filename.replace(/utf-8''/i, ''));
+                        }
+                        else {
+                            filename = filename.replace(/['"]/g, '');
+                        }
+                    }
+                    let blob = new Blob([response.responseText], { type: "application/vnd.google-earth.kml+xml" });
+                    saveAs(blob, filename);
+                })
+                .fail(function(xhr, status, error) {
+                    let resp = JSON.parse(xhr.responseText);
+                    $.toast({
+                        type: 'error',
+                        title: 'Error',
+                        content: resp.message,
+                        delay: 5000
+                    });
+                })
         }
+
         $("#generateLobForm").on("submit", function (e) {
-            // e.preventDefault();
+            e.preventDefault();
             submitLob();
         })
     </script>
