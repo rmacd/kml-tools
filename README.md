@@ -5,6 +5,8 @@ Offers simple tools for generating KML data based on input parameters.
 Functions:
 - LOB: for generating line of bearing from specific co-ordinates.
 
+**Demo: https://kml-tools.rmacd.com/**
+
 # Build
 
 Requires Maven and Java 17
