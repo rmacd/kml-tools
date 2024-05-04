@@ -18,5 +18,4 @@ class PageController {
         return "pages/lob";
     }
 
-
 }
